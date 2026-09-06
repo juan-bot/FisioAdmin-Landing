@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/postcss';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: '/FisioAdmin-Landing/',
   plugins: [react()],
   css: { postcss: { plugins: [tailwindcss()] } },
   resolve: {
