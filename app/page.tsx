@@ -1,16 +1,20 @@
 import Image from 'next/image';
 import {
   ArrowRight, BarChart3, CalendarDays, Check, ChevronRight, ClipboardCheck,
-  Cloud, FileHeart, HeartPulse, Menu, ShieldCheck, Sparkles, TrendingUp,
-  Users, WalletCards,
+  Activity, Cloud, FileHeart, FileText, HeartPulse, Menu, ReceiptText,
+  ShieldCheck, Sparkles, TrendingUp, UserCheck, Users, WalletCards,
 } from 'lucide-react';
 
 const features = [
-  { icon: Users, eyebrow: 'Pacientes', title: 'Toda la historia, a la mano', text: 'Consulta datos personales, antecedentes, alergias, medicamentos y evolución desde un expediente ordenado.', className: 'feature-large' },
-  { icon: CalendarDays, eyebrow: 'Agenda', title: 'Citas que se entienden de un vistazo', text: 'Organiza tu día, confirma sesiones y revisa el calendario mensual sin perder el contexto.', className: '' },
-  { icon: FileHeart, eyebrow: 'Tratamiento', title: 'Recetas clínicas claras', text: 'Documenta ejercicios, series, repeticiones, frecuencia y precauciones para cada paciente.', className: '' },
-  { icon: TrendingUp, eyebrow: 'Seguimiento', title: 'El progreso se vuelve visible', text: 'Registra dolor, movilidad, fuerza y funcionalidad; compara la evolución con gráficas fáciles de leer.', className: 'feature-wide' },
-  { icon: WalletCards, eyebrow: 'Negocio', title: 'Finanzas sin hojas sueltas', text: 'Sigue ingresos, metas y rendimiento para tomar mejores decisiones sobre tu clínica.', className: '' },
+  { icon: FileHeart, eyebrow: 'Historia clínica', title: 'Valoración completa y estructurada', text: 'Antecedentes patológicos y familiares, evaluación del dolor, exploración física, diagnóstico y objetivos terapéuticos.', className: 'feature-large' },
+  { icon: ClipboardCheck, eyebrow: 'Cada consulta', title: 'Notas de sesión clínicas', text: 'Documenta cómo llegó el paciente, hallazgos, intervención realizada, respuesta y plan para la siguiente cita.', className: '' },
+  { icon: Activity, eyebrow: 'Evolución', title: 'Escalas y medidas personalizadas', text: 'Registra dolor sobre 10, movilidad, fuerza, funcionalidad y cualquier métrica específica de tu tratamiento.', className: '' },
+  { icon: FileText, eyebrow: 'Documentos', title: 'Expedientes e informes en PDF', text: 'Genera historias clínicas, informes terapéuticos y recetas profesionales listos para compartir o archivar.', className: 'feature-wide' },
+  { icon: ReceiptText, eyebrow: 'Planes', title: 'Recetas con ejercicios detallados', text: 'Incluye diagnóstico, frecuencia, duración, series, repeticiones, instrucciones y precauciones.', className: '' },
+  { icon: CalendarDays, eyebrow: 'Agenda', title: 'Calendario y control de asistencia', text: 'Gestiona citas programadas, confirmadas, completadas, canceladas o con inasistencia desde una vista mensual.', className: '' },
+  { icon: BarChart3, eyebrow: 'Analítica', title: 'KPIs clínicos y operativos', text: 'Revisa asistencia, sesiones documentadas, cambio promedio de dolor, pacientes atendidos y desempeño por especialista.', className: '' },
+  { icon: UserCheck, eyebrow: 'Equipo', title: 'Roles y aprobación de usuarios', text: 'Separa permisos de administradores y terapeutas; aprueba nuevas cuentas antes de permitir el acceso.', className: '' },
+  { icon: WalletCards, eyebrow: 'Finanzas', title: 'Ingresos, presupuesto y ticket promedio', text: 'Relaciona las sesiones con tus ingresos y compara el desempeño mensual contra los objetivos de la clínica.', className: 'feature-wide' },
 ];
 
 const faqs = [
@@ -69,15 +73,83 @@ function DashboardMockup() {
   );
 }
 
+function ScreenFrame({ active, title, children }: { active: string; title: string; children: React.ReactNode }) {
+  const items = [['Resumen', BarChart3], ['Pacientes', Users], ['Citas', CalendarDays], ['Recetas', FileHeart], ['Progreso', TrendingUp], ['Finanzas', WalletCards]] as const;
+  return (
+    <div className="screen-frame">
+      <div className="screen-bar"><i /><i /><i /><span>app.fisioadmin.mx</span></div>
+      <div className="screen-app">
+        <aside className="screen-sidebar">
+          <div className="screen-brand"><HeartPulse /> <strong>FisioAdmin</strong></div>
+          <small>ORGANIZACIÓN</small>
+          {items.map(([label, Icon]) => <span className={active === label ? 'selected' : ''} key={label}><Icon />{label}</span>)}
+          <div className="screen-profile"><b>FB</b><p><strong>Fernanda B.</strong><small>Fisioterapeuta</small></p></div>
+        </aside>
+        <div className="screen-main"><div className="screen-top"><strong>{title}</strong><span>FB</span></div>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function PatientScreen() {
+  return (
+    <ScreenFrame active="Pacientes" title="Expediente">
+      <div className="patient-head"><div className="patient-avatar">LH</div><div><small>PACIENTE ACTIVA</small><h3>Lucía Hernández</h3><p>34 años · 55 1234 5678 · Última sesión: hoy</p></div><button>+ Nueva acción</button></div>
+      <div className="screen-tabs"><b>Resumen</b><span>Historia clínica</span><span>Citas</span><span>Recetas</span><span>Progreso</span><span>Documentos</span></div>
+      <div className="patient-layout">
+        <div className="clinical-card"><header><strong>Resumen clínico</strong><span>Editar</span></header><div className="clinical-fields"><p><small>DIAGNÓSTICO</small><b>Síndrome del manguito rotador</b></p><p><small>ALERGIAS</small><b>Ninguna conocida</b></p><p><small>MEDICACIÓN</small><b>Ibuprofeno según necesidad</b></p><p><small>OBJETIVO</small><b>Recuperar movilidad sin dolor</b></p></div></div>
+        <div className="pain-card"><small>DOLOR ACTUAL</small><strong>3<span>/10</span></strong><div><i style={{width:'70%'}} /></div><p>↓ 4 puntos desde la valoración</p></div>
+        <div className="timeline-card"><header><strong>Actividad reciente</strong><span>Ver todo</span></header>{['Nota de sesión registrada','Progreso actualizado','Receta terapéutica expedida'].map((x,i)=><p key={x}><i className={`dot-${i}`} /><span><b>{x}</b><small>{i===0?'Hoy, 11:45':i===1?'12 sep':'28 ago'}</small></span></p>)}</div>
+      </div>
+    </ScreenFrame>
+  );
+}
+
+function CalendarScreen() {
+  const days = Array.from({ length: 35 }, (_, i) => i - 1);
+  return (
+    <ScreenFrame active="Citas" title="Calendario">
+      <div className="calendar-toolbar"><div><small>AGENDA CLÍNICA</small><h3>Septiembre 2026</h3></div><div><button>‹</button><button>Hoy</button><button>›</button><b>+ Nueva cita</b></div></div>
+      <div className="calendar-grid"><div className="weekdays">{['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'].map(x=><span key={x}>{x}</span>)}</div><div className="month-days">{days.map((day,i)=><div className={day===16?'today':''} key={i}><span>{day>0&&day<31?day:''}</span>{day===4&&<em className="event teal">09:00 · Miguel T.</em>}{day===9&&<em className="event blue">11:30 · Sofía R.</em>}{day===16&&<><em className="event teal">09:00 · Lucía H.</em><em className="event orange">12:00 · Ana B.</em></>}{day===23&&<em className="event blue">16:30 · Diego M.</em>}</div>)}</div></div>
+      <div className="calendar-legend"><span><i className="teal"/>Confirmada</span><span><i className="blue"/>Programada</span><span><i className="orange"/>Seguimiento</span></div>
+    </ScreenFrame>
+  );
+}
+
+function MetricsScreen() {
+  return (
+    <ScreenFrame active="Finanzas" title="Métricas y finanzas">
+      <div className="metrics-title"><div><small>RENDIMIENTO DE LA CLÍNICA</small><h3>Septiembre 2026</h3></div><button>Este mes⌄</button></div>
+      <div className="wide-kpis"><div><small>INGRESOS</small><strong>$84,600</strong><em>↑ 12.4%</em></div><div><small>SESIONES COMPLETADAS</small><strong>126</strong><em>94% asistencia</em></div><div><small>TICKET PROMEDIO</small><strong>$671</strong><em>↑ $38</em></div><div><small>NOTAS DOCUMENTADAS</small><strong>118/126</strong><em>93.6%</em></div></div>
+      <div className="analytics-layout"><div className="revenue-chart"><header><strong>Ingresos vs presupuesto</strong><span>MXN</span></header><div className="chart-area"><div className="chart-y"><span>$90k</span><span>$60k</span><span>$30k</span><span>$0</span></div><svg viewBox="0 0 500 180" preserveAspectRatio="none"><defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#25a596" stopOpacity=".32"/><stop offset="1" stopColor="#25a596" stopOpacity="0"/></linearGradient></defs><path d="M0 145 C70 132,95 100,150 115 S240 68,295 82 S385 38,500 30 L500 180 L0 180Z" fill="url(#fill)"/><path d="M0 145 C70 132,95 100,150 115 S240 68,295 82 S385 38,500 30" fill="none" stroke="#169586" strokeWidth="4"/><path d="M0 125 L500 42" fill="none" stroke="#e9945a" strokeWidth="2" strokeDasharray="8 7"/></svg><div className="chart-x"><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span></div></div></div><div className="specialist-card"><header><strong>Por especialista</strong></header>{[['Fernanda','42','$31,200'],['Belén','38','$28,500'],['Carlos','31','$24,900']].map(([n,s,a],i)=><div key={n}><b>{n}</b><span><i style={{width:`${90-i*12}%`}}/></span><small>{s} sesiones · {a}</small></div>)}</div></div>
+    </ScreenFrame>
+  );
+}
+
+function ProductGallery() {
+  return (
+    <section className="screens-section" id="pantallas">
+      <div className="section-shell">
+        <div className="screens-heading"><div><span className="section-kicker light">FISIOADMIN POR DENTRO</span><h2>Una herramienta completa, no una agenda con otro nombre</h2></div><p>Cada pantalla conecta la atención clínica con la operación diaria. Explora el expediente, el calendario y los indicadores que realmente importan.</p></div>
+        <div className="screen-stories">
+          <article><div className="story-copy"><span>01 · EXPEDIENTE</span><h3>El contexto completo antes de entrar a consulta</h3><p>Historia clínica, diagnóstico, medicamentos, progreso, documentos y actividad reciente dentro del mismo perfil.</p><ul><li><Check/>Valoración y antecedentes estructurados</li><li><Check/>Acciones clínicas desde el expediente</li><li><Check/>PDF clínicos listos para expedir</li></ul></div><PatientScreen /></article>
+          <article><div className="story-copy"><span>02 · CALENDARIO</span><h3>Una agenda que también da seguimiento</h3><p>Programa y confirma sesiones, identifica inasistencias y abre la nota clínica desde la misma cita.</p><ul><li><Check/>Vista mensual y detalle por día</li><li><Check/>Estados visibles por color</li><li><Check/>Nota de sesión ligada al paciente</li></ul></div><CalendarScreen /></article>
+          <article><div className="story-copy"><span>03 · MÉTRICAS</span><h3>La salud de tu práctica, sin armar reportes aparte</h3><p>Relaciona asistencia, documentación, desempeño clínico e ingresos para entender qué está funcionando.</p><ul><li><Check/>Ingresos contra presupuesto</li><li><Check/>Ticket promedio y asistencia</li><li><Check/>Desempeño por especialista</li></ul></div><MetricsScreen /></article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <main id="inicio">
       <header className="site-header">
         <div className="nav-shell">
           <Brand />
-          <nav className="desktop-nav" aria-label="Navegación principal"><a href="#beneficios">Beneficios</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#preguntas">Preguntas</a></nav>
-          <a className="nav-cta" href="#producto">Conocer FisioAdmin <ArrowRight size={16} /></a>
-          <details className="mobile-menu"><summary aria-label="Abrir menú"><Menu size={23} /></summary><nav aria-label="Navegación móvil"><a href="#beneficios">Beneficios</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#preguntas">Preguntas</a></nav></details>
+          <nav className="desktop-nav" aria-label="Navegación principal"><a href="#pantallas">La plataforma</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#preguntas">Preguntas</a></nav>
+          <a className="nav-cta" href="#pantallas">Ver la plataforma <ArrowRight size={16} /></a>
+          <details className="mobile-menu"><summary aria-label="Abrir menú"><Menu size={23} /></summary><nav aria-label="Navegación móvil"><a href="#pantallas">La plataforma</a><a href="#funciones">Funciones</a><a href="#seguridad">Seguridad</a><a href="#preguntas">Preguntas</a></nav></details>
         </div>
       </header>
 
@@ -86,7 +158,7 @@ export default function Home() {
           <div className="eyebrow"><Sparkles size={15} /> Gestión diseñada para fisioterapia</div>
           <h1>Más tiempo para tus pacientes. <span>Todo lo demás, en orden.</span></h1>
           <p>FisioAdmin reúne expedientes, citas, tratamientos, progreso y finanzas en un solo lugar. Claro desde el primer día y útil en cada sesión.</p>
-          <div className="hero-actions"><a className="button button-primary" href="#producto">Descubrir la plataforma <ArrowRight size={18} /></a><a className="text-link" href="#como-funciona">Ver cómo funciona <ChevronRight size={17} /></a></div>
+          <div className="hero-actions"><a className="button button-primary" href="#pantallas">Ver FisioAdmin por dentro <ArrowRight size={18} /></a><a className="text-link" href="#funciones">Explorar funciones <ChevronRight size={17} /></a></div>
           <div className="trust-row" aria-label="Ventajas principales"><span><Cloud size={17} /> Sincronización en la nube</span><span><ShieldCheck size={17} /> Acceso controlado</span></div>
         </div>
         <div className="hero-visual">
@@ -97,6 +169,8 @@ export default function Home() {
       </section>
 
       <section className="proof-strip" id="beneficios"><div className="section-shell proof-grid"><p>Una clínica organizada se siente en cada consulta.</p><div><strong>Un solo lugar</strong><span>Adiós a la información dispersa.</span></div><div><strong>Cada paciente visible</strong><span>Contexto completo antes de atender.</span></div><div><strong>Decisiones con datos</strong><span>Métricas clínicas y financieras claras.</span></div></div></section>
+
+      <ProductGallery />
 
       <section className="workflow section-shell" id="como-funciona">
         <div className="section-intro"><span className="section-kicker">TU FLUJO, MÁS SIMPLE</span><h2>De la primera cita al alta, sin perder el hilo</h2><p>Cada registro alimenta una visión completa de tu paciente y de tu práctica.</p></div>
