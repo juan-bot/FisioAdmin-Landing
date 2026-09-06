@@ -156,7 +156,7 @@ export default function Home() {
       <section className="hero section-shell">
         <div className="hero-copy">
           <div className="eyebrow"><Sparkles size={15} /> Gestión diseñada para fisioterapia</div>
-          <h1>Más tiempo para tus pacientes. <span>Todo lo demás, en orden.</span></h1>
+          <h1>Software para fisioterapeutas que simplifica la administración de tu clínica</h1>
           <p>FisioAdmin reúne expedientes, citas, tratamientos, progreso y finanzas en un solo lugar. Claro desde el primer día y útil en cada sesión.</p>
           <div className="hero-actions"><a className="button button-primary" href="#pantallas">Ver FisioAdmin por dentro <ArrowRight size={18} /></a><a className="text-link" href="#funciones">Explorar funciones <ChevronRight size={17} /></a></div>
           <div className="trust-row" aria-label="Ventajas principales"><span><Cloud size={17} /> Sincronización en la nube</span><span><ShieldCheck size={17} /> Acceso controlado</span></div>
